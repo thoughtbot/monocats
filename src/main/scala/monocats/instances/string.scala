@@ -12,5 +12,8 @@ trait StringInstances {
 
     def foldLeft(string: String, c: Char)(f: (Char, Char) => Char): Char =
       string.foldLeft(c)(f)
+
+    def foldRight(string: String, c: Char)(f: (Char, Char) => Char): Char =
+      string.foldRight(c)(f)
   }
 }

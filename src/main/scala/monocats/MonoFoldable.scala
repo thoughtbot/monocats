@@ -2,6 +2,8 @@ package monocats
 
 trait MonoFoldable[F] extends MonoFunctor[F] {
   def foldLeft(fa: F, a: Element)(f: (Element, Element) => Element): Element
+
+  def foldRight(fa: F, a: Element)(f: (Element, Element) => Element): Element
 }
 
 object MonoFoldable {
