@@ -2,6 +2,8 @@ package monocats
 
 import cats.instances.list._
 import cats.instances.option._
+import instances.functor._
+import instances.string._
 import org.scalatest._
 
 class MonoFunctorSpec extends AsyncFlatSpec {
