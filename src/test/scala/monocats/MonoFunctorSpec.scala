@@ -1,6 +1,7 @@
 package monocats
 
 import cats.instances.list._
+import cats.instances.option._
 import org.scalatest._
 
 class MonoFunctorSpec extends AsyncFlatSpec {
@@ -14,5 +15,11 @@ class MonoFunctorSpec extends AsyncFlatSpec {
 
   it should "replace an element" in {
     assert(MonoFunctor[String].replace("abcabcd")('b', 'e') === "aecaecd")
+  }
+
+  it should "change the value" in {
+    assert(MonoFunctor[String].as("hello")('A') === "AAAAA")
+    assert(MonoFunctor[Option[Int]].as(Some(5))(0) === Some(0))
+    assert(MonoFunctor[Option[Int]].as(None)(0) === None)
   }
 }

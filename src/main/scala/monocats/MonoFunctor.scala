@@ -16,6 +16,8 @@ trait MonoFunctor[F] {
         element
       }
     }
+
+  def as(mono: F)(value: Element): F = map(mono)(_ => value)
 }
 
 object MonoFunctor extends MonoFunctorInstances {
