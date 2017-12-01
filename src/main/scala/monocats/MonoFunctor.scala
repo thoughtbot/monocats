@@ -7,6 +7,15 @@ trait MonoFunctor[F] {
   type Element
 
   def map(mono: F)(f: Element => Element): F
+
+  def replace(mono: F)(find: Element, replace: Element): F =
+    map(mono) { element =>
+      if (element.equals(find)) {
+        replace
+      } else {
+        element
+      }
+    }
 }
 
 object MonoFunctor extends MonoFunctorInstances {
