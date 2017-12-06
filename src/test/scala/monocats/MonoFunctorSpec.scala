@@ -3,6 +3,7 @@ package monocats
 import cats.instances.list._
 import cats.instances.option._
 import instances.functor._
+import instances.iso._
 import instances.string._
 import org.scalatest._
 
@@ -13,6 +14,14 @@ class MonoFunctorSpec extends AsyncFlatSpec {
 
   it should "map over the value in a functor" in {
     assert(MonoFunctor[List[Int]].map(List(1, 2, 3))(_ + 1) === List(2, 3, 4))
+  }
+
+  it should "map over the value in an isomorphic container" in {
+    implicit val iso: Iso.Aux[AnyString, String] = AnyString.explicitIso
+
+    assert(
+      MonoFunctor[AnyString]
+        .map(AnyString("hello"))(_.capitalize) === AnyString("Hello"))
   }
 
   it should "replace an element" in {

@@ -1,6 +1,7 @@
 package monocats
 
 import cats.instances.list._
+import instances.iso._
 import instances.string._
 import instances.foldable._
 import org.scalatest._
@@ -26,5 +27,21 @@ class MonoFoldableSpec extends AsyncFlatSpec {
   it should "right fold elements in a list" in {
     assert(MonoFoldable[List[Int]].foldRight(List(1, 3, 2), 0)(_.max(_)) === 3)
     assert(MonoFoldable[List[Int]].foldRight(List(1, 2), 0)((a, _) => a) === 1)
+  }
+
+  it should "left fold the value in an isomorphic container" in {
+    implicit val iso: Iso.Aux[AnyString, String] = AnyString.explicitIso
+
+    assert(
+      MonoFoldable[AnyString]
+        .foldLeft(AnyString("a"), "b")(_ ++ _) === "ba")
+  }
+
+  it should "right fold the value in an isomorphic container" in {
+    implicit val iso: Iso.Aux[AnyString, String] = AnyString.explicitIso
+
+    assert(
+      MonoFoldable[AnyString]
+        .foldRight(AnyString("a"), "b")(_ ++ _) === "ab")
   }
 }
