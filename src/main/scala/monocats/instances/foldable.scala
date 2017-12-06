@@ -20,5 +20,4 @@ private[instances] class FoldableMonoFoldableInstance[F[_]: Functor, A](
 
   def foldRight(fa: F[A], a: A)(f: (A, A) => A): A =
     F.foldRight(fa, Eval.always(a))((a, b) => Eval.always(f(a, b.value))).value
-
 }
