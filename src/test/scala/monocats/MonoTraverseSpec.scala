@@ -34,4 +34,13 @@ class MonoTraverseSpec extends AsyncFlatSpec {
     assert(MonoTraverse[AnyString].traverse(AnyString("a"))(_ =>
       None: Option[String]) === None)
   }
+
+  it should "derive an instance for an Anyval" in {
+    implicit val iso: Iso.Aux[AnyString, String] = Iso.derive
+
+    assert(
+      MonoFunctor[AnyString]
+        .map(AnyString("hello"))(_.capitalize) === AnyString("Hello"))
+  }
+
 }
