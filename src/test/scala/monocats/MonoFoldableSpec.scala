@@ -1,6 +1,7 @@
 package monocats
 
 import cats.instances.list._
+import cats.instances.string._
 import instances.iso._
 import instances.string._
 import instances.foldable._
@@ -59,5 +60,9 @@ class MonoFoldableSpec extends AsyncFlatSpec {
 
   it should "convert a foldable to a list" in {
     assert(MonoFoldable[String].toList("abc") === List('a', 'b', 'c'))
+  }
+
+  it should "fold monoids" in {
+    assert(MonoFoldable[List[String]].fold(List("ab", "cd")) === "abcd")
   }
 }

@@ -1,11 +1,16 @@
 package monocats
 
+import cats.Monoid
+
 trait MonoFoldable[F] extends MonoFunctor[F] {
   def foldLeft[B](fa: F, b: B)(f: (B, Element) => B): B
 
   def foldRight[B](fa: F, b: B)(f: (Element, B) => B): B
 
   def toList(fa: F): List[Element] = foldRight(fa, List.empty[Element])(_ :: _)
+
+  def fold(fa: F)(implicit M: Monoid[Element]): Element =
+    foldRight(fa, M.empty)(M.combine(_, _))
 }
 
 object MonoFoldable {
