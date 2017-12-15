@@ -11,6 +11,11 @@ trait MonoFoldable[F] extends MonoFunctor[F] {
 
   def fold(fa: F)(implicit M: Monoid[Element]): Element =
     foldRight(fa, M.empty)(M.combine(_, _))
+
+  def find(fa: F)(f: Element => Boolean): Option[Element] =
+    foldLeft(fa, None: Option[Element]) { (current, element) =>
+      current.orElse(Some(element).filter(f))
+    }
 }
 
 object MonoFoldable {

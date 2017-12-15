@@ -65,4 +65,9 @@ class MonoFoldableSpec extends AsyncFlatSpec {
   it should "fold monoids" in {
     assert(MonoFoldable[List[String]].fold(List("ab", "cd")) === "abcd")
   }
+
+  it should "find an element" in {
+    assert(MonoFoldable[String].find("abc")(_ > 'a') === Some('b'))
+    assert(MonoFoldable[String].find("abc")(_ > 'd') === None)
+  }
 }
