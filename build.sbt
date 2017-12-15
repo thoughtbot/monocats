@@ -13,6 +13,7 @@ lazy val root = (project in file("."))
       "-feature",
       "-unchecked",
       "-Xfatal-warnings",
+      "-Ypartial-unification",
       "-Ywarn-unused-import"
     ),
     name := "monocats",
