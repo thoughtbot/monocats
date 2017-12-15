@@ -13,8 +13,7 @@ trait ApplicativeInstances {
 
 private[instances] class ApplicativeMonoPointedInstance[F[_], A](
     implicit F: Applicative[F])
-    extends MonoPointed[F[A]] {
-  type Element = A
-
+    extends FunctorMonoFunctorInstance[F, A]
+    with MonoPointed[F[A]] {
   def point(a: Element): F[Element] = F.pure(a)
 }

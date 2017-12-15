@@ -7,9 +7,9 @@ import scala.language.higherKinds
 package object iso extends IsoInstances
 
 trait IsoInstances {
-  implicit def monocatsIsoInstances[A, U](
-      implicit iso: Iso.Aux[A, U]): MonoTraverse.Aux[A, U] =
-    new MonoTraverse[A] {
+  implicit def monocatsIsoInstances[A, U](implicit iso: Iso.Aux[A, U])
+    : MonoTraverse.Aux[A, U] with MonoPointed.Aux[A, U] =
+    new MonoTraverse[A] with MonoPointed[A] {
       type Element = iso.Underlying
 
       def map(a: A)(f: Element => Element): A = iso.from(f(iso.to(a)))
@@ -25,12 +25,6 @@ trait IsoInstances {
       def traverse[G[_]](a: A)(f: Element => G[Element])(
           implicit G: Applicative[G]): G[A] =
         G.map(f(iso.to(a)))(iso.from)
-    }
-
-  implicit def monocatsIsoMonoPointedInstances[A, U](
-      implicit iso: Iso.Aux[A, U]): MonoPointed.Aux[A, U] =
-    new MonoPointed[A] {
-      type Element = iso.Underlying
 
       def point(u: Element): A = iso.from(u)
     }

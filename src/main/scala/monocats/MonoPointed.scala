@@ -1,8 +1,6 @@
 package monocats
 
-trait MonoPointed[F] {
-  type Element
-
+trait MonoPointed[F] extends MonoFunctor[F] {
   def point(a: Element): F
 }
 
