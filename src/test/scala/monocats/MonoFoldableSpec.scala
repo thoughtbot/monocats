@@ -56,4 +56,8 @@ class MonoFoldableSpec extends AsyncFlatSpec {
       MonoFoldable[String]
         .foldRight("abc", 1)(_ - _) === 'c' - ('b' - ('a' - 1)))
   }
+
+  it should "convert a foldable to a list" in {
+    assert(MonoFoldable[String].toList("abc") === List('a', 'b', 'c'))
+  }
 }
