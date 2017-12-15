@@ -44,4 +44,16 @@ class MonoFoldableSpec extends AsyncFlatSpec {
       MonoFoldable[AnyString]
         .foldRight(AnyString("a"), "b")(_ ++ _) === "ab")
   }
+
+  it should "left fold computations from elements" in {
+    assert(
+      MonoFoldable[String]
+        .foldLeft("abc", 1)(_ - _) === 1 - 'a' - 'b' - 'c')
+  }
+
+  it should "right fold computations from elements" in {
+    assert(
+      MonoFoldable[String]
+        .foldRight("abc", 1)(_ - _) === 'c' - ('b' - ('a' - 1)))
+  }
 }

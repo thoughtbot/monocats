@@ -15,11 +15,11 @@ trait StringInstances {
 
       def map(string: String)(f: Char => Char): String = string.map(f)
 
-      def foldLeft(string: String, c: Char)(f: (Char, Char) => Char): Char =
-        string.foldLeft(c)(f)
+      def foldLeft[B](string: String, b: B)(f: (B, Char) => B): B =
+        string.foldLeft(b)(f)
 
-      def foldRight(string: String, c: Char)(f: (Char, Char) => Char): Char =
-        string.foldRight(c)(f)
+      def foldRight[B](string: String, b: B)(f: (Char, B) => B): B =
+        string.foldRight(b)(f)
 
       def traverse[G[_]](string: String)(f: Char => G[Char])(
           implicit G: Applicative[G]): G[String] =
