@@ -2,7 +2,7 @@ package monocats.instances
 
 import cats.Applicative
 import cats.instances.list._
-import monocats.MonoTraverse
+import monocats.{MonoPointed, MonoTraverse}
 import scala.language.higherKinds
 
 package object string extends StringInstances
@@ -23,5 +23,13 @@ trait StringInstances {
       def traverse[G[_]](string: String)(f: Char => G[Char])(
           implicit G: Applicative[G]): G[String] =
         G.map(G.traverse(string.toList)(f))(_.mkString)
+    }
+
+  implicit val monocatsStringMonoPointedInstance
+    : MonoPointed.Aux[String, Char] =
+    new MonoPointed[String] {
+      type Element = Char
+
+      def point(c: Char): String = c.toString
     }
 }

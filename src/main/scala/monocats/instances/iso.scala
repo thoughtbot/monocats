@@ -1,7 +1,7 @@
 package monocats.instances
 
 import cats.Applicative
-import monocats.{Iso, MonoTraverse}
+import monocats.{Iso, MonoPointed, MonoTraverse}
 import scala.language.higherKinds
 
 package object iso extends IsoInstances
@@ -25,5 +25,13 @@ trait IsoInstances {
       def traverse[G[_]](a: A)(f: Element => G[Element])(
           implicit G: Applicative[G]): G[A] =
         G.map(f(iso.to(a)))(iso.from)
+    }
+
+  implicit def monocatsIsoMonoPointedInstances[A, U](
+      implicit iso: Iso.Aux[A, U]): MonoPointed.Aux[A, U] =
+    new MonoPointed[A] {
+      type Element = iso.Underlying
+
+      def point(u: Element): A = iso.from(u)
     }
 }
