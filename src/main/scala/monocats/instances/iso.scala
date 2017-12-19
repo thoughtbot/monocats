@@ -22,11 +22,11 @@ private[instances] class IsoMonoInstances[A, U](implicit val iso: Iso.Aux[A, U])
 
   def map(a: A)(f: Element => Element): A = iso.from(f(iso.to(a)))
 
-  def foldLeft(a: A, u: Element)(f: (Element, Element) => Element): Element =
-    f(u, iso.to(a))
+  def foldLeft[B](a: A, b: B)(f: (B, Element) => B): B =
+    f(b, iso.to(a))
 
-  def foldRight(a: A, u: Element)(f: (Element, Element) => Element): Element =
-    f(iso.to(a), u)
+  def foldRight[B](a: A, b: B)(f: (Element, B) => B): B =
+    f(iso.to(a), b)
 
   def traverse[G[_]](a: A)(f: Element => G[Element])(
       implicit G: Applicative[G]): G[A] =
