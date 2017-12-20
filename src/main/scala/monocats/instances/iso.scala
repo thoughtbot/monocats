@@ -35,4 +35,6 @@ private[instances] class IsoMonoInstances[A, U](implicit val iso: Iso.Aux[A, U])
   def point(u: Element): A = iso.from(u)
 
   def extract(a: A): Element = iso.to(a)
+
+  def coflatMap(fa: A)(f: A => Element): A = iso.from(f(fa))
 }

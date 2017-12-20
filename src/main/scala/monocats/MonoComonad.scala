@@ -5,10 +5,16 @@ package monocats
   * extracting an element from a monomorphic container.
   */
 trait MonoComonad[F] extends MonoFunctor[F] {
+
   /**
     * Extract an element from a monomorphic container.
     */
   def extract(fa: F): Element
+
+  /**
+    * Extend a monomorphic container using a coflatmapping function.
+    */
+  def coflatMap(fa: F)(f: F => Element): F
 }
 
 object MonoComonad {

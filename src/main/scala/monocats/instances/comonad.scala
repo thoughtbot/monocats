@@ -16,4 +16,7 @@ private[instances] class ComonadMonoComonadInstance[F[_], A](
     extends FunctorMonoFunctorInstance[F, A]
     with MonoComonad[F[A]] {
   def extract(fa: F[Element]): Element = F.extract(fa)
+
+  def coflatMap(fa: F[Element])(f: F[Element] => Element): F[Element] =
+    F.coflatMap(fa)(f)
 }
