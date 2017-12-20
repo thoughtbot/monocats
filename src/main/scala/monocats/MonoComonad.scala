@@ -1,6 +1,13 @@
 package monocats
 
+/**
+  * Monomorphic version of `Comonad`. Extends [[MonoFunctor]] to allow
+  * extracting an element from a monomorphic container.
+  */
 trait MonoComonad[F] extends MonoFunctor[F] {
+  /**
+    * Extract an element from a monomorphic container.
+    */
   def extract(fa: F): Element
 }
 

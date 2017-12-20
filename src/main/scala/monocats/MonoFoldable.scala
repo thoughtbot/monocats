@@ -2,6 +2,10 @@ package monocats
 
 import cats.Monoid
 
+/**
+  * Monomorphic version of Foldable. Extends [[MonoFunctor]] to allow folding
+  * over monomorphic structures.
+  */
 trait MonoFoldable[F] extends MonoFunctor[F] {
   def foldLeft[B](fa: F, b: B)(f: (B, Element) => B): B
 
