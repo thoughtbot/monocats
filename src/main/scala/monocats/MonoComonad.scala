@@ -1,7 +1,7 @@
 package monocats
 
 /**
-  * Monomorphic version of `Comonad`. Extends [[MonoFunctor]] to allow
+  * Monomorphic version of [[cats.Comonad]]. Extends [[MonoFunctor]] to allow
   * extracting an element from a monomorphic container.
   */
 trait MonoComonad[F] extends MonoFunctor[F] {

@@ -4,7 +4,7 @@ import cats.Applicative
 import scala.language.higherKinds
 
 /**
-  * Monomorphic version of Traverse. Extends [[MonoFoldable]] to allow
+  * Monomorphic version of [[cats.Traverse]]. Extends [[MonoFoldable]] to allow
   * traversing monomorphic structures from beginning to end with an effect.
   */
 trait MonoTraverse[F] extends MonoFunctor[F] with MonoFoldable[F] {

@@ -1,7 +1,7 @@
 package monocats
 
 /**
-  * Monomorphic version of `Functor`.
+  * Monomorphic version of [[cats.Functor]].
   *
   * Because it is monomorphic, `MonoFunctor`:
   *
@@ -15,10 +15,11 @@ package monocats
   * a new `Char` value.
   */
 trait MonoFunctor[F] {
+
   /**
-   * The type of elements mapped by this monomorphic functor. For example, the
-   * `Element` type for a `String` would be `Char`.
-   */
+    * The type of elements mapped by this monomorphic functor. For example, the
+    * `Element` type for a `String` would be `Char`.
+    */
   type Element
 
   def map(mono: F)(f: Element => Element): F
@@ -37,8 +38,8 @@ trait MonoFunctor[F] {
     }
 
   /**
-   * Replaces the `Element` value in `F` with the supplied value.
-   */
+    * Replaces the `Element` value in `F` with the supplied value.
+    */
   def as(mono: F)(value: Element): F = map(mono)(_ => value)
 }
 
