@@ -1,13 +1,9 @@
 import Dependencies._
-import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
+import ReleaseTransformations._
 
 lazy val root = (project in file("."))
   .settings(
-    inThisBuild(
-      List(
-        scalaVersion := "2.12.3",
-        version := "0.1.0-SNAPSHOT"
-      )),
+    inThisBuild(List(scalaVersion := "2.12.3")),
     scalacOptions ++= Seq(
       "-deprecation",
       "-feature",
@@ -46,6 +42,22 @@ lazy val root = (project in file("."))
       )
     ),
     useGpg := true,
+
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      releaseStepCommand("sonatypeOpen \"com.thoughtbot\" \"monocats\""),
+      releaseStepCommand("publishSigned"),
+      setNextVersion,
+      commitNextVersion,
+      releaseStepCommand("sonatypeRelease"),
+      pushChanges
+    ),
 
     libraryDependencies += scalaTest % Test
   )
