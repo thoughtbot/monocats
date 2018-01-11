@@ -1,10 +1,10 @@
 import Dependencies._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
 lazy val root = (project in file("."))
   .settings(
     inThisBuild(
       List(
-        organization := "thoughtbot",
         scalaVersion := "2.12.3",
         version := "0.1.0-SNAPSHOT"
       )),
@@ -16,7 +16,37 @@ lazy val root = (project in file("."))
       "-Ypartial-unification",
       "-Ywarn-unused-import"
     ),
+
+    autoAPIMappings := true,
+    developers := List(
+      Developer(
+        id="jferris",
+        name="Joe Ferris",
+        email="jferris@thoughtbot.com",
+        url=url("https://github.com/jferris")
+      )
+    ),
+    licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
+    homepage := Some(url("https://github.com/thoughtbot/monocats")),
     name := "monocats",
+    organization := "com.thoughtbot",
+    pomIncludeRepository := { _ => false },
+    publishMavenStyle := true,
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+        if (isSnapshot.value)
+          Some("snapshots" at nexus + "content/repositories/snapshots")
+        else
+          Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/thoughtbot/monocats"),
+        "scm:git:git@github.com:thoughtbot/monocats.git"
+      )
+    ),
+    useGpg := true,
+
     libraryDependencies += scalaTest % Test
   )
   .settings(
