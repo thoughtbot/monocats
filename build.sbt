@@ -26,15 +26,14 @@ lazy val root = (project in file("."))
     homepage := Some(url("https://github.com/thoughtbot/monocats")),
     name := "monocats",
     organization := "com.thoughtbot",
-    pomIncludeRepository := { _ => false },
     publishMavenStyle := true,
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-        if (isSnapshot.value)
-          Some("snapshots" at nexus + "content/repositories/snapshots")
-        else
-          Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-    },
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     scmInfo := Some(
       ScmInfo(
         url("https://github.com/thoughtbot/monocats"),
@@ -51,11 +50,10 @@ lazy val root = (project in file("."))
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommand("sonatypeOpen \"com.thoughtbot\" \"monocats\""),
-      releaseStepCommand("publishSigned"),
+      publishArtifacts,
+      releaseStepCommand("sonatypeRelease"),
       setNextVersion,
       commitNextVersion,
-      releaseStepCommand("sonatypeRelease"),
       pushChanges
     ),
 
